@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
                 val i = Intent(this@MainActivity, HomeActivity::class.java)
                 startActivity(i)
                 finish()
+                onDestroy()
             }, SPLASH_TIME_OUT)
         val checkBox = findViewById<CheckBox>(R.id.checkBox)
         checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
