@@ -8,7 +8,7 @@ import com.example.tommybinding.R
 
 fun ImageView.loadImage(uri: String?) {
     val options = RequestOptions()
-        .placeholder(R.drawable.loader)
+        .placeholder(R.drawable.ic_launcher_background)
         .circleCrop()
         .error(R.mipmap.ic_launcher_round)
     Glide.with(this.context)
