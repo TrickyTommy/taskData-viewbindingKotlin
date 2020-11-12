@@ -10,7 +10,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
@@ -52,4 +52,5 @@ ext {
     archLifecycleVersion = '2.2.0'
     rxJavaVersion = '2.1.1'
     retrofitVersion = '2.3.0'
+    daggerVer = 2.27
 }

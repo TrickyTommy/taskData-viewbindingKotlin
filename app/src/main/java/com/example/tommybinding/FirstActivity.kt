@@ -1,64 +1,56 @@
 package com.example.tommybinding
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-
-import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tommybinding.view.*
-import com.example.tommybinding.ListViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_recycleactivity.*
+import androidx.recyclerview.widget.RecyclerView
+import com.example.tommybinding.R
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-
-class FirstActivity : AppCompatActivity() {
-
-    lateinit var viewModel: ListViewModel
-    private val usersAdapter = UserListAdapter(arrayListOf())
+/**
+ * Created by Dumadu on 26-Oct-17.
+ */
+class FirstActivity : AppCompatActivity(), RecyclerViewAdapter.DatasClickListener {
+    var hasDatas: ArrayList<Datas> = ArrayList()
+    override fun getItem(position: Int) {
+        val alertDialog = AlertDialog.Builder(this@FirstActivity)
+        alertDialog.setTitle(hasDatas.get(position).firstName)
+        alertDialog.setMessage(hasDatas.get(position).lastName)
+        alertDialog.setPositiveButton("OK") { dialog, which ->
+            Toast.makeText(this@FirstActivity, "OK", Toast.LENGTH_SHORT).show()
+        }
+//        alertDialog.setNegativeButton("No") { dialog, which ->
+//            Toast.makeText(this@MainActivity, "No", Toast.LENGTH_SHORT).show()
+//        }
+        alertDialog.show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_first)
 
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
-        viewModel.refresh()
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerview_demo)
+        print(recyclerView)
 
-        usersList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = usersAdapter
-        }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        var apiInterface: ApiInterface = ApiClient().getApiClient()!!.create(ApiInterface::class.java)
+        apiInterface.getDatas().enqueue(object : Callback<ArrayList<Datas>> {
+            override fun onResponse(call: Call<ArrayList<Datas>>?, response: Response<ArrayList<Datas>>?) {
+                hasDatas = response?.body()!!
+                recyclerView.adapter = RecyclerViewAdapter(response?.body()!!, this@FirstActivity)
+            }
 
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
-            viewModel.refresh()
-        }
-
-        observeViewModel()
-    }
-
-    fun observeViewModel() {
-        viewModel.users.observe(this, Observer { countries ->
-            countries?.let {
-                usersList.visibility = View.VISIBLE
-                usersAdapter.updateUsers(it)
+            override fun onFailure(call: Call<ArrayList<Datas>>?, t: Throwable?) {
             }
         })
 
-        viewModel.userLoadError.observe(this, Observer { isError ->
-            isError?.let { list_error.visibility = if (it) View.VISIBLE else View.GONE }
-        })
 
-        viewModel.loading.observe(this, Observer { isLoading ->
-            isLoading?.let {
-                loading_view.visibility = if (it) View.VISIBLE else View.GONE
-                if (it) {
-                    list_error.visibility = View.GONE
-                    usersList.visibility = View.GONE
-                }
-            }
-        })
     }
 }

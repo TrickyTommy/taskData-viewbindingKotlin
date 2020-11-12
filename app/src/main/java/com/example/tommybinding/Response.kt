@@ -1,8 +1,8 @@
-package com.example.tommybinding.Model
+package com.example.tommybinding
 
 import com.google.gson.annotations.SerializedName
 
-data class User(
+data class Response(
 
 	@field:SerializedName("last_name")
 	val lastName: String? = null,

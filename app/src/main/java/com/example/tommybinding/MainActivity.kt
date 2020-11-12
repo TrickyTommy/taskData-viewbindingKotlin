@@ -8,6 +8,7 @@ import android.os.Handler
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT =
@@ -28,4 +29,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
 }
