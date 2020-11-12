@@ -13,9 +13,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/**
- * Created by Dumadu on 26-Oct-17.
- */
 class FirstActivity : AppCompatActivity(), RecyclerViewAdapter.DatasClickListener {
     var hasDatas: ArrayList<Datas> = ArrayList()
     override fun getItem(position: Int) {
@@ -42,12 +39,12 @@ class FirstActivity : AppCompatActivity(), RecyclerViewAdapter.DatasClickListene
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         var apiInterface: ApiInterface = ApiClient().getApiClient()!!.create(ApiInterface::class.java)
         apiInterface.getDatas().enqueue(object : Callback<ArrayList<Datas>> {
-            override fun onResponse(call: Call<ArrayList<Datas>>?, response: Response<ArrayList<Datas>>?) {
-                hasDatas = response?.body()!!
+            override fun onResponse(call: Call<ArrayList<Datas>>?, response: Response<ArrayList<Datas>>) {
+                hasDatas = response.body()!!
                 recyclerView.adapter = RecyclerViewAdapter(response.body()!!, this@FirstActivity)
             }
 
-            override fun onFailure(call: Call<ArrayList<Datas>>?, t: Throwable?) {
+            override fun onFailure(call: Call<ArrayList<Datas>>, t: Throwable?) {
                 print(t.toString())
             }
         })
