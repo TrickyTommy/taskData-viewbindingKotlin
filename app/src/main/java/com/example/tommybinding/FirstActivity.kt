@@ -44,10 +44,11 @@ class FirstActivity : AppCompatActivity(), RecyclerViewAdapter.DatasClickListene
         apiInterface.getDatas().enqueue(object : Callback<ArrayList<Datas>> {
             override fun onResponse(call: Call<ArrayList<Datas>>?, response: Response<ArrayList<Datas>>?) {
                 hasDatas = response?.body()!!
-                recyclerView.adapter = RecyclerViewAdapter(response?.body()!!, this@FirstActivity)
+                recyclerView.adapter = RecyclerViewAdapter(response.body()!!, this@FirstActivity)
             }
 
             override fun onFailure(call: Call<ArrayList<Datas>>?, t: Throwable?) {
+                print(t.toString())
             }
         })
 

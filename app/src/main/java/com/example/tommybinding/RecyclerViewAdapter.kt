@@ -32,8 +32,10 @@ class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>?, var itemClick: Data
         var textName: TextView = itemView.findViewById(R.id.text_name)
         var textAddress: TextView = itemView.findViewById(R.id.text_address)
         var textId: TextView = itemView.findViewById(R.id.id)
+
         var textEmail: TextView = itemView.findViewById(R.id.email)
         fun bindData(hospitalsList: ArrayList<Datas>?, position: Int) {
+            println(hospitalsList.toString())
             textName.text = hospitalsList!!.get(position).firstName
             textAddress.text = hospitalsList!!.get(position).lastName
             textId.text = hospitalsList!!.get(position).id.toString()
