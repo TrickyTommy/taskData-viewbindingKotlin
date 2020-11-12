@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tommybinding.R
 
 
 class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>, var itemClick: DatasClickListener) : RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
@@ -22,13 +22,23 @@ class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>, var itemClick: Datas
         val item = DatasLists.get(position)
         holder.bindData(item, position)
     }
+    @NonNull
+    @Override
+    override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): RecyclerViewHolder {
+        var view: View = LayoutInflater.from(parent.context).inflate(
+            R.layout.item_list,
+            parent,
+            false
+        )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        var view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
+//        val view: View =
+//            LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
         return RecyclerViewHolder(view, itemClick)
     }
 
-    class RecyclerViewHolder(itemView: View, var itemClick: DatasClickListener) : RecyclerView.ViewHolder(itemView) {
+    class RecyclerViewHolder(itemView: View, var itemClick: DatasClickListener) : RecyclerView.ViewHolder(
+        itemView
+    ) {
         //    class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textName: TextView = itemView.findViewById(R.id.text_name)
         var textAddress: TextView = itemView.findViewById(R.id.text_address)
