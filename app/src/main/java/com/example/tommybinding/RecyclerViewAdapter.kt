@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tommybinding.R
 
 
-class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>?, var itemClick: DatasClickListener) : RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
+class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>, var itemClick: DatasClickListener) : RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>() {
     override fun getItemCount(): Int {
-        return DatasLists!!.size
+        return DatasLists.size
     }
 
     interface DatasClickListener {
@@ -19,11 +19,12 @@ class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>?, var itemClick: Data
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.bindData(DatasLists, position)
+        val item = DatasLists.get(position)
+        holder.bindData(item, position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        var view: View = LayoutInflater.from(parent!!.context).inflate(R.layout.item_list, parent, false)
+        var view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
         return RecyclerViewHolder(view, itemClick)
     }
 
@@ -34,12 +35,12 @@ class RecyclerViewAdapter(var DatasLists: ArrayList<Datas>?, var itemClick: Data
         var textId: TextView = itemView.findViewById(R.id.id)
 
         var textEmail: TextView = itemView.findViewById(R.id.email)
-        fun bindData(hospitalsList: ArrayList<Datas>?, position: Int) {
+        fun bindData(hospitalsList: Datas, position: Int) {
             println(hospitalsList.toString())
-            textName.text = hospitalsList!!.get(position).firstName
-            textAddress.text = hospitalsList!!.get(position).lastName
-            textId.text = hospitalsList!!.get(position).id.toString()
-            textEmail.text = hospitalsList!!.get(position).email
+            textName.text = hospitalsList.firstName
+            textAddress.text = hospitalsList.lastName
+            textId.text = hospitalsList.id.toString()
+            textEmail.text = hospitalsList.email
             itemView.setOnClickListener(View.OnClickListener {
                 itemClick.getItem(adapterPosition)
             })
